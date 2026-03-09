@@ -1,7 +1,9 @@
+# uvicorn main:app --reload (api'yi çalıştırmak için terminal komutu)
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import joblib
+import joblib # eğitilmiş modeli ve vektörleştiriciyi yükler
 import re
 import nltk
 from nltk.corpus import stopwords
@@ -12,33 +14,33 @@ nltk.download('stopwords', quiet=True)
 nltk.download('wordnet', quiet=True)
 nltk.download('omw-1.4', quiet=True)
 
-# 1. FastAPI uygulamasını başlat
+# 1. web sunucusunu başlat
 app = FastAPI(
     title="E-Commerce Sentiment API", 
-    description="Müşteri yorumları için makine öğrenmesi tabanlı duygu analizi."
+    description="Machine learning-based sentiment analysis for customer reviews."
 )
 
 app.add_middleware(
-    CORSMiddleware,
+    CORSMiddleware, # Next.js frontend'inin API'ye erişebilmesi için
     allow_origins=["http://localhost:3000"], # Next.js'in adresi
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# 2. Modelleri hafızaya yükle (Global olarak yüklüyoruz ki her istekte baştan okunmasın, hızlı olsun)
+# Modelleri hafızaya yükle (Global olarak yüklüyoruz ki her istekte baştan okunmasın)
 try:
-    model = joblib.load('sentiment_model.pkl')
-    vectorizer = joblib.load('tfidf_vectorizer.pkl')
-    print("✅ Model ve Vectorizer başarıyla yüklendi.")
+    model = joblib.load('sentiment_model.pkl') # eğitilmiş model dosyası
+    vectorizer = joblib.load('tfidf_vectorizer.pkl') # metni sayısal hale getiren vektörleştirici dosyası
+    print("✅ Model and vectorizer successfully loaded.")
 except Exception as e:
-    print(f"❌ Model yüklenirken hata oluştu: {e}")
+    print(f"❌ Error occurred while loading model: {e}")
 
 # NLP Araçları
-stop_words = set(stopwords.words('english'))
-lemmatizer = WordNetLemmatizer()
+stop_words = set(stopwords.words('english')) # "the", "is" gibi anlamsız kelimeleri filtreler
+lemmatizer = WordNetLemmatizer() # kelime köklerini bulur 
 
-# Temizlik Fonksiyonu (Notebook'taki ile aynı)
+# Temizlik Fonksiyonu
 def clean_text(text):
     if not isinstance(text, str):
         return ""
@@ -49,25 +51,25 @@ def clean_text(text):
     cleaned_words = [lemmatizer.lemmatize(word) for word in words if word not in stop_words]
     return " ".join(cleaned_words)
 
-# 3. İstemciden (Frontend'den) gelecek verinin şeması (Pydantic ile güvenlik)
+# İstemciden (Frontend'den) gelecek verinin türünü tanımla
 class ReviewRequest(BaseModel):
-    text: str
+    text: str #json formatında {"text": "Bu ürün harika!"} şeklinde 
 
-# 4. Tahmin Endpoint'i (POST isteği alacak)
-@app.post("/predict")
+
+@app.post("/predict") # POST isteği
 def predict_sentiment(request: ReviewRequest):
-    # Gelen metni temizle
-    cleaned = clean_text(request.text)
     
-    # Metni sayılara (vektöre) çevir
-    vec_text = vectorizer.transform([cleaned])
+    cleaned = clean_text(request.text) # Gelen metni temizle
     
-    # Modeli kullanarak tahmin yap
-    prediction = model.predict(vec_text)[0]
-    probabilities = model.predict_proba(vec_text)[0]
+    
+    vec_text = vectorizer.transform([cleaned]) # Metni sayılara (vektöre) çevir
+    
+    
+    prediction = model.predict(vec_text)[0] # Modeli kullanarak tahmin yap
+    probabilities = model.predict_proba(vec_text)[0] # güven oranı
     
     # Sonuçları formatla
-    sentiment = "Pozitif" if prediction == 1 else "Negatif"
+    sentiment = "Pozitive" if prediction == 1 else "Negative"
     confidence = round(max(probabilities) * 100, 2)
     
     # JSON olarak geri döndür
