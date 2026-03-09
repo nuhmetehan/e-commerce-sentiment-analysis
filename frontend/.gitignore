@@ -1,41 +1,51 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# =========================================
+# 🐍 PYTHON & MACHINE LEARNING (Arka Uç)
+# =========================================
+# Python önbellek dosyaları (İşte baş belası olanlar)
+__pycache__/
+*.py[cod]
+*$py.class
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# Sanal Ortamlar (Kütüphanelerin kurulu olduğu ağır klasörler)
+venv/
+env/
+.venv/
 
-# testing
-/coverage
+# Çevresel değişkenler (API şifreleri, gizli anahtarlar)
+.env
 
-# next.js
-/.next/
-/out/
+# Jupyter Notebook geçici dosyaları
+.ipynb_checkpoints/
 
-# production
-/build
+# Veri setleri (GitHub 100MB sınırına takılır, repoda tutulmaz)
+*.csv
+*.xlsx
+"Womens Clothing E-Commerce Reviews.csv"
 
-# misc
-.DS_Store
-*.pem
+# =========================================
+# ⚛️ NODE.JS & NEXT.JS (Ön Uç - Frontend)
+# =========================================
+# Node kütüphaneleri (Repoya atılması yasak olan kara delik!)
+node_modules/
+frontend/node_modules/
 
-# debug
+# Next.js derleme (build) ve önbellek dosyaları
+.next/
+frontend/.next/
+out/
+build/
+
+# Node hata logları
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# =========================================
+# 💻 İŞLETİM SİSTEMİ & EDİTÖR DOSYALARI
+# =========================================
+# Mac ve Windows çöp dosyaları
+.DS_Store
+Thumbs.db
 
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# VS Code ayarları
+.vscode/
