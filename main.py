@@ -69,7 +69,7 @@ def predict_sentiment(request: ReviewRequest):
     probabilities = model.predict_proba(vec_text)[0] # güven oranı
     
     # Sonuçları formatla
-    sentiment = "Pozitive" if prediction == 1 else "Negative"
+    sentiment = "Positive" if prediction == 1 else "Negative"
     confidence = round(max(probabilities) * 100, 2)
     
     # JSON olarak geri döndür

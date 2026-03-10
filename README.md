@@ -23,3 +23,10 @@ The model was optimized for **Recall on the Negative class** to ensure dissatisf
 - **Overall Accuracy:** 93%
 - **Recall (Negative Class):** **89%** *(Successfully caught 423 out of 474 unhappy customers in the test set)*
 - **F1-Score (Positive Class):** 96%
+
+# Full-Stack Web Application (Deployment)
+To make the AI model accessible to end-users the project features a web architecture:
+
+* **Backend (FastAPI):** REST API (`main.py`) that loads the pre-trained `.pkl` files into memory. It exposes a `/predict` endpoint that processes incoming text, applies the exact same NLP cleaning steps used during training, and returns the sentiment and confidence score in JSON format.
+* **Frontend (Next.js & Tailwind CSS):** A responsive, user interface built with React. It features a modern design. It allows users to input reviews and instantly see the model's prediction alongside a session history tracking log.
+
