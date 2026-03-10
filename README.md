@@ -30,3 +30,8 @@ To make the AI model accessible to end-users the project features a web architec
 * **Backend (FastAPI):** REST API (`main.py`) that loads the pre-trained `.pkl` files into memory. It exposes a `/predict` endpoint that processes incoming text, applies the exact same NLP cleaning steps used during training, and returns the sentiment and confidence score in JSON format.
 * **Frontend (Next.js & Tailwind CSS):** A responsive, user interface built with React. It features a modern design. It allows users to input reviews and instantly see the model's prediction alongside a session history tracking log.
 
+<img width="1905" height="944" alt="Ekran Görüntüsü (8)" src="https://github.com/user-attachments/assets/2d5351c4-961f-4acd-a84d-88043da958fe" />
+
+<img width="1887" height="966" alt="Ekran Görüntüsü (9)" src="https://github.com/user-attachments/assets/33bd320b-3971-4ca3-b9a7-88b4a10bc0f1" />
+
+
